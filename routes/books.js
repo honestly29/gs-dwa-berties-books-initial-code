@@ -2,6 +2,8 @@
 const express = require("express")
 const router = express.Router()
 
+
+// Search for books
 router.get('/search',function(req, res, next){
     res.render("search.ejs")
 });
@@ -12,6 +14,7 @@ router.get('/search-result', function (req, res, next) {
 });
 
 
+// List current books in the database
 router.get('/list', function(req, res, next) {
     let sqlquery = "SELECT * FROM books"; // query database to get all the books
     // execute sql query
@@ -24,6 +27,8 @@ router.get('/list', function(req, res, next) {
 });
 
 
+
+// Add books to the database
 router.get('/addbook', function(req, res, next) {
     res.render('addbook.ejs');
 })
@@ -42,6 +47,17 @@ router.post('/bookadded', function (req, res, next) {
     })
 }) 
 
+
+
+router.get('/barginbooks', function(req, res) {
+    let sqlquery = "SELECT name, price FROM books WHERE price<20"; // query database to get books which are priced less than £20
+    db.query(sqlquery, (err, result) => {
+        if (err) {
+            next(err)
+        }
+        res.render("barginbooks.ejs", {availableBooks:result});
+        });
+});
 
 // Export the router object so index.js can access it
 module.exports = router

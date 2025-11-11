@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <title>List <%=shopData.shopName%></title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1><%=shopData.shopName%></h1>
+    <h2>Here are our bargin books:</h2>
+    <ul>
+      <% for(const book of availableBooks) { %>
+        <li><%= book.name %>, £<%= Number(book.price).toFixed(2) %></li>
+      <% } %>
+    </ul>
+  </body>
+</html>
