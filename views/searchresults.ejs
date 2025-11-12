@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <title>List <%=shopData.shopName%></title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1><%= shopData && shopData.shopName ? shopData.shopName : 'Berties Book Shop' %></h1>
+    <% if (typeof search_text !== 'undefined') { %>
+      <p>Results for "<%= search_text %>"</p>
+    <% } %>
+    <% if (!availableBooks || availableBooks.length === 0) { %>
+      <p>No books found.</p>
+    <% } else { %>
+      <ul>
+        <% for (let i = 0; i < availableBooks.length; i++) { %>
+          <li><strong><%= availableBooks[i].name %></strong> £<%= availableBooks[i].price %></li>
+        <% } %>
+      </ul>
+    <% } %>
+  </body>
+</html>

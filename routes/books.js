@@ -8,10 +8,17 @@ router.get('/search',function(req, res, next){
     res.render("search.ejs")
 });
 
-router.get('/search-result', function (req, res, next) {
-    //searching in the database
-    res.send("You searched for: " + req.query.keyword)
+router.get('/search-result', (req, res, next) => {
+  const search_text = (req.query.search_text || '').trim();
+  if (!search_text) return res.render('searchresults.ejs', { availableBooks: [], search_text });
+
+  const sql = 'SELECT name, price FROM books WHERE name LIKE CONCAT("%", ?, "%")';
+  db.query(sql, [search_text], (err, result) => {
+    if (err) return next(err);
+    res.render('searchresults.ejs', { availableBooks: result, search_text });
+  });
 });
+
 
 
 // List current books in the database
