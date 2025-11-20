@@ -23,7 +23,11 @@ router.post('/registered', function (req, res, next) {
 
         db.query(sqlInsertUser, newrecord, (err, result) => {
             if (err) {
-                return next(err);
+                // Duplicate email or username error
+                if (err.code === "ER_DUP_ENTRY") {
+                    return res.send("Registration failed: That email or username already exists.");
+                }
+                return res.send("Database error: " + err.message);
             }
             else
                 result = 'Hello '+ req.body.first + ' '+ req.body.last +' you are now registered!  We will send an email to you at ' + req.body.email;
